@@ -1,5 +1,8 @@
 // This function will be responsible for identifying the type of error that has been thrown and sending the relevant error response
 export default function errorHandler(err, res) {
+  // Log the error
+  console.log(err)
+
   let { name, status, field, message, code } = err
 
   // * ValidationError
@@ -17,6 +20,11 @@ export default function errorHandler(err, res) {
     const field = Object.keys(err.keyValue)[0]
     // Send a unique constraint error
     return res.status(422).json({ [field]: `${field} is already taken` })
+  }
+
+  // * JsonWebTokenError
+  if (name === 'JsonWebTokenError') {
+    return res.status(401).json({ message: 'Unauthorized' })
   }
   
   // * All custom error responses
