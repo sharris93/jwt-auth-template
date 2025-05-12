@@ -5,7 +5,6 @@ import 'dotenv/config'
 
 // Routers/Controllers
 import authRouter from './controllers/auth.js'
-import isSignedIn from './middleware/isSignedIn.js'
 
 const app = express()
 const port = process.env.PORT
@@ -16,11 +15,6 @@ app.use(morgan('dev'))
 
 // * Routers
 app.use('/api', authRouter)
-
-app.get('/api/test-route', isSignedIn, (req, res) => {
-  // console.log('USER INSIDE THE FINAL CONTROLLER:', req.user)
-  return res.json(req.user)
-})
 
 // * 404 Route
 app.use('/{*any}', (req, res) => {
